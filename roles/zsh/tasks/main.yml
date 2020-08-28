@@ -1,0 +1,41 @@
+---
+- name: Install necessary zsh homebrew packages
+  homebrew:
+    name: ["zsh", "zsh-completions", "zsh-autosuggestions", "zsh-syntax-highlighting"]
+    state: present
+
+- name: Check for .oh-my-zsh exists
+  stat:
+    path: /Users/{{ username }}/.oh-my-zsh
+  register: ohmyzsh_folder
+
+- name: Install OhMyZsh
+  shell: |
+    sh -c "$(curl -fsSL {{ ohmyzsh_install_url }})"
+  when: not ohmyzsh_folder.stat.exists
+
+- name: Install powerlevel9k theme
+  git:
+    repo: "{{ powerlevel9k_theme_url }}"
+    dest: /Users/{{ username }}/.oh-my-zsh/custom/themes/powerlevel9k
+    version: "{{ powerlevel9k_theme_version }}"
+
+- name: Install nerd fonts 1/2
+  homebrew_tap:
+    name: homebrew/cask-fonts
+
+- name: Install nerd fonts 2/2
+  homebrew_cask:
+    name: font-hack-nerd-font
+    state: present
+
+- name: Copy .zshrc file
+  template:
+    src: zsh/.zshrc
+    dest: /Users/{{ username }}/.zshrc
+
+- name: Set default shell
+  user:
+    name: "{{ username }}"
+    shell: /bin/zsh
+  become: yes

@@ -1,0 +1,21 @@
+---
+homebrew_packages_to_install:
+  - git
+  - ansible
+  - terraform
+  - wget
+  - awscli
+  - hadolint
+  - helm
+  - python
+
+homebrew_casks_to_install:
+  - iterm2
+  - rectangle
+  - vscodium
+  - firefox
+  - keka
+  - iina
+  - mounty
+  - spotify
+  - brooklyn # Screensaver

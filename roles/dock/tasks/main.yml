@@ -1,0 +1,17 @@
+---
+- name: Install dockutil
+  homebrew:
+    name: dockutil
+    state: present
+  notify: killall dock
+
+- name: Remove all items from the Dock
+  command: /usr/local/bin/dockutil --remove all
+  changed_when: true
+  notify: killall dock
+
+- name: Set the default Dock items
+  command: "/usr/local/bin/dockutil --add {{ item }} --no-restart"
+  with_items: "{{ dock_applications }}"
+  changed_when: true
+  notify: killall dock

@@ -1,0 +1,81 @@
+---
+- name: Dock - Don’t automatically rearrange Spaces based on most recent use
+  osx_defaults:
+    domain: com.apple.dock
+    key: mru-spaces
+    type: bool
+    value: false
+    state: present
+  notify: killall dock
+
+- name: Dock - Automatically hide and show the Dock
+  osx_defaults:
+    domain: com.apple.dock
+    key: autohide
+    type: bool
+    value: true
+    state: present
+  notify: killall dock
+
+- name: Dock - Don’t show recent applications in Dock
+  osx_defaults:
+    domain: com.apple.dock
+    key: show-recents
+    type: bool
+    value: false
+    state: present
+  notify: killall dock
+
+- name: Dock - Orientation left
+  osx_defaults:
+    domain: com.apple.dock
+    key: orientation
+    type: string
+    value: left
+    state: present
+  notify: killall dock
+
+- name: Dock - Set size of icons
+  osx_defaults:
+    domain: com.apple.dock
+    key: tilesize
+    type: integer
+    value: 33
+    state: present
+  notify: killall dock
+
+- name: Dock - Hot corners
+  osx_defaults:
+    domain: com.apple.dock
+    key: wvous-br-corner
+    type: int
+    value: 13 # Lock the screen
+    state: present
+  notify: killall dock
+
+- name: Dock - Hot corners
+  osx_defaults:
+    domain: com.apple.dock
+    key: wvous-bl-modifier
+    type: int
+    value: 0
+    state: present
+  notify: killall dock
+
+- name: Dock - Don’t show Dashboard as a Space
+  osx_defaults:
+    domain: com.apple.dock
+    key: dashboard-in-overlay
+    type: bool
+    value: true
+    state: present
+  notify: killall dock
+
+- name: Dock - Reset Launchpad
+  osx_defaults:
+    domain: com.apple.dock
+    key: ResetLaunchPad
+    type: bool
+    value: true
+    state: present
+  notify: killall dock

@@ -1,0 +1,7 @@
+- name: Copy vim settings
+  copy:
+    src: "vim/.vimrc"
+    dest: "{{ ansible_env.HOME }}/.vimrc"
+    owner: "{{ username }}"
+    group: "{{ group }}"
+    mode: 0700

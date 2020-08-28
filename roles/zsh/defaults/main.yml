@@ -1,0 +1,5 @@
+---
+ohmyzsh_install_url: |
+  https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh
+powerlevel9k_theme_url: https://github.com/Powerlevel9k/powerlevel9k.git
+powerlevel9k_theme_version: v0.6.7

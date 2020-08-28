@@ -1,0 +1,22 @@
+---
+- hosts: localhost
+  connection: local
+  vars:
+    username: myusername
+    group: staff
+    hostname: mymacbook
+    git_username: myusername
+    git_email: myusername@example.com
+  roles:
+    - preflight
+    - hostname
+    - homebrew
+    - git
+    - zsh
+    - tmux
+    - dock
+    - osx-defaults
+    - ssh
+    - vim
+    - iterm
+    - vscode

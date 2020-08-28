@@ -1,0 +1,15 @@
+---
+- name: Update and upgrade packages for Homebrew
+  homebrew:
+    update_homebrew: yes
+    upgrade_all: yes
+
+- name: Install homebrew packages
+  homebrew:
+    name: "{{ homebrew_packages_to_install }}"
+    state: present
+
+- name: Install homebrew casks
+  homebrew_cask:
+    name: "{{ homebrew_casks_to_install }}"
+    state: present

@@ -1,0 +1,4 @@
+---
+- name: Close any open System Preferences panes
+  command: osascript -e 'tell application "System Preferences" to quit'
+  changed_when: true

@@ -1,0 +1,9 @@
+---
+vscode_extensions:
+  - { name: "Terraform", id: "mauve.terraform" }
+  - { name: "Markdown Preview Enhanced", id: "shd101wyy.markdown-preview-enhanced" }
+  - { name: "Plist", id: "dnicolson.binary-plist" }
+  - { name: "Material theme community", id: "equinusocio.vsc-community-material-theme" }
+  - { name: "Material theme", id: "equinusocio.vsc-material-theme" }
+  - { name: "Material theme icons", id: "pkief.material-icon-theme" }
+  

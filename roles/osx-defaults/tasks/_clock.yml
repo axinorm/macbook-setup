@@ -1,0 +1,9 @@
+---
+- name: Clock - Display date and hour
+  osx_defaults:
+    domain: com.apple.menuextra.clock
+    key: DateFormat
+    type: string
+    value: "EEE d MMM '\\340'  HH:mm:ss"
+    state: present
+  notify: killall systemuiserver

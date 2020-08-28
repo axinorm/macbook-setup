@@ -1,0 +1,8 @@
+---
+- name: Iterm2 - Don’t display the annoying prompt when quitting iTerm
+  osx_defaults:
+    domain: com.googlecode.iterm2
+    key: PromptOnQuit
+    type: bool
+    value: false
+    state: present

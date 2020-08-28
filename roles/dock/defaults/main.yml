@@ -1,0 +1,15 @@
+---
+dock_applications:
+  - /System/Applications/Launchpad.app
+  - /Applications/Firefox.app
+  - /Applications/iTerm.app
+  - /Applications/VSCodium.app
+  - /System/Applications/Messages.app
+  - /System/Applications/Calendar.app
+  - /System/Applications/Notes.app
+  - /System/Applications/Photos.app
+  - /Applications/IINA.app
+  - /System/Applications/Music.app
+  - /Applications/Spotify.app
+  - "\"/System/Applications/App Store.app\""
+  - "\"/System/Applications/System Preferences.app\""
