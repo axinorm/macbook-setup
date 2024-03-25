@@ -1,0 +1,14 @@
+iterm2_application_path: /Applications/iTerm.app
+iterm2_plist_path: ~/Library/Preferences/com.googlecode.iterm2.plist
+iterm2_font_name: "MesloLGS-NF-Regular"
+iterm2_font_size: 14
+iterm2_fonts_to_install:
+  - "MesloLGS NF Bold Italic.ttf"
+  - "MesloLGS NF Bold.ttf"
+  - "MesloLGS NF Italic.ttf"
+  - "MesloLGS NF Regular.ttf"
+
+iterm2_color_schemes:
+  git_repository: https://github.com/mbadolato/iTerm2-Color-Schemes.git
+  branch: master
+  selected_theme: Solarized Dark - Patched

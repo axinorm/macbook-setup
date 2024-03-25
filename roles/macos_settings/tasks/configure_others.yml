@@ -1,0 +1,31 @@
+---
+- name: Others - Configure defaults
+  community.general.osx_defaults:
+    host: "{{ item.host | default(omit) }}"
+    domain: "{{ item.domain }}"
+    key: "{{ item.key }}"
+    type: "{{ item.type }}"
+    value: "{{ item.value }}"
+    state: present
+  with_items: "{{ others.defaults }}"
+  notify:
+    - Kill SystemUIServer
+    - Kill Dock
+    - Kill Finder
+  tags: others, defaults
+
+- name: Others - Configure Night Shift
+  when: others.nightshift.enabled
+  tags: others, nightshift
+  block:
+    - name: Setup tap for nightlight
+      community.general.homebrew_tap:
+        name: smudge/smudge
+
+    - name: Install nightlight
+      community.general.homebrew:
+        name: nightlight
+
+    - name: Configure Night Shift
+      ansible.builtin.command: nightlight schedule {{ others.nightshift.start_time }} {{ others.nightshift.end_time }}
+      changed_when: false

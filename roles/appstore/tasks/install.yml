@@ -1,0 +1,12 @@
+---
+- name: Install applications with App Store
+  ansible.builtin.command: "mas install {{ item }}"
+  register: result
+  changed_when: result.stdout.find('Installed') != 1
+  tags: appstore
+
+- name: Update applications with App Store
+  ansible.builtin.command: "mas upgrade {{ item }}"
+  register: result
+  changed_when: result.stdout.find('Installed') != 1
+  tags: appstore

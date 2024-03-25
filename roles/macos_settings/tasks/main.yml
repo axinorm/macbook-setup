@@ -1,0 +1,39 @@
+---
+- name: Setup Settings
+  ansible.builtin.include_tasks: configure_settings.yml
+  tags: settings
+
+- name: Setup System UI Server
+  ansible.builtin.include_tasks: configure_systemuiserver.yml
+  tags: systemuiserver
+
+- name: Setup Clock
+  ansible.builtin.include_tasks: configure_clock.yml
+  tags: clock
+
+- name: Setup Dock
+  ansible.builtin.include_tasks: configure_dock.yml
+  tags: dock
+
+- name: Setup Finder
+  ansible.builtin.include_tasks: configure_finder.yml
+  tags: finder
+
+- name: Setup Safari
+  ansible.builtin.include_tasks: configure_safari.yml
+  tags: safari
+
+- name: Setup TextEdit
+  ansible.builtin.include_tasks: configure_textedit.yml
+  tags: textedit
+
+- name: Setup Network
+  ansible.builtin.include_tasks: configure_network.yml
+  tags: network
+
+- name: Setup others
+  ansible.builtin.include_tasks: configure_others.yml
+  tags: others
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers

@@ -1,0 +1,7 @@
+---
+- name: Set DNS
+  ansible.builtin.command: networksetup -setdnsservers {{ item.interface_name }} {{ item.dns_servers | join(" ") }}
+  with_items: "{{ network_configuration }}"
+  register: result
+  changed_when: false
+  tags: network, dns

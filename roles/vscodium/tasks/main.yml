@@ -1,0 +1,19 @@
+---
+- name: Install homebrew package
+  community.general.homebrew:
+    name: vscodium
+    state: present
+  tags: vscodium
+
+- name: Add VSCodium to Gatekeeper
+  ansible.builtin.command: xattr -dr com.apple.quarantine {{ vscodium_application_path }}
+  changed_when: false
+  become: true
+  tags: vscodium
+
+- name: Install Visual Studio Codium extensions
+  ansible.builtin.command: codium --install-extension {{ item.id | default(item) }}
+  with_items: "{{ vscodium.extensions }}"
+  register: vscodium_result
+  changed_when: "'already installed' not in vscodium_result.stdout"
+  tags: vscodium

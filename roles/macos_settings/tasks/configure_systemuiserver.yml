@@ -1,0 +1,11 @@
+---
+- name: System UI Server - Configure defaults
+  community.general.osx_defaults:
+    domain: com.apple.systemuiserver
+    key: "{{ item.key }}"
+    type: "{{ item.type }}"
+    value: "{{ item.value }}"
+    state: present
+  with_items: "{{ systemuiserver.defaults }}"
+  notify: Kill SystemUIServer
+  tags: systemuiserver, defaults

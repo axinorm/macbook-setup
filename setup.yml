@@ -1,0 +1,15 @@
+---
+- name: Configure macOS
+  hosts: mymac
+  connection: local
+  roles:
+    - preflight
+    - hostname
+    - homebrew
+    - appstore
+    - zsh
+    - tmux
+    - vim
+    - iterm2
+    - vscodium
+    - macos_settings

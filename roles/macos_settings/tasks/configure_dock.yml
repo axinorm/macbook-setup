@@ -1,0 +1,47 @@
+---
+- name: Dock - Configure defaults
+  community.general.osx_defaults:
+    domain: com.apple.dock
+    key: "{{ item.key }}"
+    type: "{{ item.type }}"
+    value: "{{ item.value }}"
+    state: present
+  with_items: "{{ dock.defaults }}"
+  notify: Kill Dock
+  tags: dock, defaults
+
+- name: Dock - Configure applications
+  when: dock.display_applications | length > 0
+  tags: dock, configuration, applications
+  block:
+    - name: Dock - Install dockutil
+      community.general.homebrew:
+        name: dockutil
+        state: present
+      notify: Kill Dock
+      changed_when: false
+
+    - name: Dock - Remove all items from the Dock
+      ansible.builtin.command: /usr/local/bin/dockutil --remove all
+      changed_when: true
+      notify: Kill Dock
+
+    - name: Dock - Set the Dock items
+      ansible.builtin.command: "/usr/local/bin/dockutil --add {{ item }} --no-restart"
+      changed_when: true
+      with_items: "{{ dock.display_applications }}"
+      notify: Kill Dock
+
+    - name: Dock - Flush handlers
+      ansible.builtin.meta: flush_handlers
+
+- name: Dock - Reset Launchpad
+  community.general.osx_defaults:
+    domain: com.apple.dock
+    key: ResetLaunchPad
+    type: bool
+    value: true
+    state: present
+  when: dock.reset_launchpad
+  changed_when: false
+  tags: dock, defaults, launchpad

@@ -1,31 +1,48 @@
 ---
 - name: Install necessary tmux homebrew packages
-  homebrew:
-    name: ["tmux", "reattach-to-user-namespace"]
+  community.general.homebrew:
+    name:
+      - tmux
+      - reattach-to-user-namespace
     state: present
+  tags: tmux
 
 - name: Copy custom tmux config
-  copy:
+  ansible.builtin.copy:
     src: tmux/.tmux.conf
     dest: /Users/{{ username }}/.tmux.conf
+    mode: "0644"
+  tags: tmux
 
 - name: Create tmux plugin directory
-  file:
+  ansible.builtin.file:
     dest: /Users/{{ username }}/.tmux/plugins
     state: directory
+    mode: "0755"
+  tags: tmux
 
 - name: Install plugins
-  git:
+  ansible.builtin.git:
     repo: "{{ item.repo }}"
     dest: "/Users/{{ username }}/.tmux/plugins/{{ item.name }}"
     version: "{{ item.version }}"
-    force: yes
-  with_items: "{{ tmux_plugins }}"
+    force: true
+  with_items: "{{ tmux.plugins }}"
+  tags: tmux
+
+- name: Create a symbolic link for airport command
+  ansible.builtin.file:
+    src: /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport
+    dest: /usr/local/bin/airport
+    state: link
+  become: true
+  tags: tmux
 
 - name: Add binary scripts for bottom bar
-  copy:
+  ansible.builtin.copy:
     src: tmux/bin/
     dest: "/Users/{{ username }}/bin"
     owner: "{{ username }}"
     group: "{{ group }}"
-    mode: 0755
+    mode: "0755"
+  tags: tmux

@@ -1,0 +1,17 @@
+---
+- name: Settings - Configure defaults
+  community.general.osx_defaults:
+    domain: NSGlobalDomain
+    key: "{{ item.key }}"
+    type: "{{ item.type }}"
+    value: "{{ item.value }}"
+    state: present
+  with_items: "{{ settings.defaults }}"
+  tags: settings, defaults
+
+- name: Settings - Disable sound effects on boot
+  ansible.builtin.command: nvram StartupMute=%01
+  when: settings.disable_sound_effects_on_boot
+  become: true
+  changed_when: false
+  tags: settings, boot

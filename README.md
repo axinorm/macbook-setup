@@ -1,53 +1,53 @@
 # Setup new macOS operating system
 
-This installation mode has been tested on macOs Catalina
+This installation mode has been tested on macOS Sonoma.
 
-Install homebrew and xcode
+Before starting, you have to allow ``Full Disk Access`` for Terminal app. You can setup this in ``Privacy & Security`` > ``Full Disk Access``.
 
-```
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-```
+In order to save time, you can run ``./setup.sh`` directly on your mac.
 
-Install git and python
+Otherwise, you can follow the following commands:
 
-```
-brew install git python
-```
+* Install macOS command line and homebrew :
 
-Clone this repository
+  ```sh
+  xcode-select --install
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  ```
 
-Install virtualenv
+* Install Ansible
 
-```
-sudo pip3 install virtualenv
-```
+  ```sh
+  brew install ansible
+  ```
 
-Create new virtualenv
+* Clone this repository
 
-```
-virtualenv -p /usr/local/bin/python3 .venv
-source .venv/bin/activate
-```
+  ```sh
+  git clone https://github.com/axinorm/macbook-setup
+  cd macbook-setup
+  ```
 
-Install Ansible
+* Update ``inventory/group_vars/mymac.yml`` and run ``setup.yml`` playbook
 
-```
-pip install ansible
-```
-
-Launch playbook
-
-```
-ansible-playbook macbook-setup/macbook_setup.yml --ask-become-pass --ask-vault-pass
-```
+  ```sh
+  ansible-playbook setup.yml --inventory inventory/hosts --ask-become-pass
+  ```
 
 # Based on
 
-osx_defaults
+osx_defaults :
+* [saghul/macOS-setup](https://github.com/saghul/macOS-setup/blob/master/tasks/macos-defaults.yml)
+* [ultimateboy/ansible.osx](https://github.com/ultimateboy/ansible.osx/tree/master/roles/ultimateboy.osxdefaults/tasks)
+* [mathiasbynens/dotfiles](https://github.com/mathiasbynens/dotfiles/blob/master/.macos)
 
-* https://github.com/saghul/macOS-setup/blob/master/tasks/macos-defaults.yml
-* https://github.com/ultimateboy/ansible.osx/tree/master/roles/ultimateboy.osxdefaults/tasks
-* https://github.com/mathiasbynens/dotfiles/blob/master/.macos
+Dock :
+* [nickcharlton.net - Automating macOS using Ansible](https://nickcharlton.net/posts/automating-macos-using-ansible.html)
 
-Dock
-* https://nickcharlton.net/posts/automating-macos-using-ansible.html
+macOS App Store :
+* [ayltai/ansible-macos-appstore](https://github.com/ayltai/ansible-macos-appstore)
+
+Global settings with Shell scripts :
+* [keith/dotfiles](https://github.com/keith/dotfiles/blob/main/osx/defaults.sh)
+* [pawelgrzybek/dotfiles](https://github.com/pawelgrzybek/dotfiles/blob/master/setup-macos.sh)
+* [kdeldycke/dotfiles](https://github.com/kdeldycke/dotfiles/blob/main/macos-config.sh)

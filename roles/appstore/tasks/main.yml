@@ -1,0 +1,15 @@
+---
+- name: Signs in to App Store
+  ansible.builtin.pause:
+    prompt: Press Ctrl+C to quit now if you have not already signed in to App Store
+    seconds: "{{ appstore_pause }}"
+  tags: appstore
+
+- name: Installs mas-cli with Homebrew
+  community.general.homebrew:
+    name: "{{ appstore_mas_package }}"
+  tags: appstore, mas-cli
+
+- name: Install applications
+  ansible.builtin.include_tasks: install.yml
+  loop: "{{ appstore.applications }}"

@@ -1,0 +1,11 @@
+---
+- name: Clock - Configure defaults
+  community.general.osx_defaults:
+    domain: com.apple.menuextra.clock
+    key: "{{ item.key }}"
+    type: "{{ item.type }}"
+    value: "{{ item.value }}"
+    state: present
+  with_items: "{{ clock.defaults }}"
+  notify: Kill SystemUIServer
+  tags: clock, defaults

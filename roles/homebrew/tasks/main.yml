@@ -1,15 +1,23 @@
 ---
 - name: Update and upgrade packages for Homebrew
-  homebrew:
-    update_homebrew: yes
-    upgrade_all: yes
+  community.general.homebrew:
+    update_homebrew: true
+    upgrade_all: true
+  tags: homebrew, upgrade
 
-- name: Install homebrew packages
-  homebrew:
-    name: "{{ homebrew_packages_to_install }}"
+- name: Install homebrew taps
+  community.general.homebrew_tap:
+    name: "{{ homebrew.taps }}"
+  tags: homebrew, taps
+
+- name: Install homebrew formulae
+  community.general.homebrew:
+    name: "{{ homebrew.formulae }}"
     state: present
+  tags: homebrew, formulae
 
 - name: Install homebrew casks
-  homebrew_cask:
-    name: "{{ homebrew_casks_to_install }}"
+  community.general.homebrew_cask:
+    name: "{{ homebrew.casks }}"
     state: present
+  tags: homebrew, casks

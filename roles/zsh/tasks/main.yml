@@ -1,41 +1,56 @@
 ---
 - name: Install necessary zsh homebrew packages
-  homebrew:
-    name: ["zsh", "zsh-completions", "zsh-autosuggestions", "zsh-syntax-highlighting"]
+  community.general.homebrew:
+    name:
+      - zsh
+      - zsh-completions
+      - zsh-autosuggestions
+      - zsh-syntax-highlighting
     state: present
+  tags: zsh
 
 - name: Check for .oh-my-zsh exists
-  stat:
+  ansible.builtin.stat:
     path: /Users/{{ username }}/.oh-my-zsh
   register: ohmyzsh_folder
+  tags: zsh
 
-- name: Install OhMyZsh
-  shell: |
-    sh -c "$(curl -fsSL {{ ohmyzsh_install_url }})"
+- name: Install Oh My Zsh
+  ansible.builtin.shell: |
+    sh -c "$(curl -fsSL {{ ohmyzsh.url }})"
   when: not ohmyzsh_folder.stat.exists
+  changed_when: true
+  tags: zsh
 
-- name: Install powerlevel9k theme
-  git:
-    repo: "{{ powerlevel9k_theme_url }}"
-    dest: /Users/{{ username }}/.oh-my-zsh/custom/themes/powerlevel9k
-    version: "{{ powerlevel9k_theme_version }}"
+- name: Install powerlevel10k theme
+  ansible.builtin.git:
+    repo: "{{ powerlevel10k.theme.url }}"
+    dest: "/Users/{{ username }}/.oh-my-zsh/custom/themes/powerlevel10k"
+    version: "{{ powerlevel10k.theme.version }}"
+  tags: zsh
 
-- name: Install nerd fonts 1/2
-  homebrew_tap:
-    name: homebrew/cask-fonts
+- name: Copy zsh configuration files
+  tags: zsh
+  block:
+    - name: Copy .zshrc
+      ansible.builtin.template:
+        src: "zsh/{{ item }}.j2"
+        dest: "/Users/{{ username }}/{{ item }}"
+        mode: "0644"
+      loop:
+        - .zshrc
 
-- name: Install nerd fonts 2/2
-  homebrew_cask:
-    name: font-hack-nerd-font
-    state: present
-
-- name: Copy .zshrc file
-  template:
-    src: zsh/.zshrc
-    dest: /Users/{{ username }}/.zshrc
+    - name: Copy .p10k.zsh and .fzf.zsh
+      ansible.builtin.copy:
+        src: "zsh/{{ item }}"
+        dest: "/Users/{{ username }}/{{ item }}"
+        mode: "0644"
+      loop:
+        - .p10k.zsh
+        - .fzf.zsh
 
 - name: Set default shell
-  user:
+  ansible.builtin.user:
     name: "{{ username }}"
     shell: /bin/zsh
-  become: yes
+  become: true

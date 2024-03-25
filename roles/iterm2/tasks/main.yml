@@ -1,0 +1,90 @@
+---
+- name: Install iTerm2
+  community.general.homebrew_cask:
+    name: iterm2
+    state: present
+  tags: iterm2, casks
+
+- name: Open iTerm2 to generate default .plist
+  ansible.builtin.shell: |
+    xattr -dr com.apple.quarantine {{ iterm2_application_path }}
+    open -a {{ iterm2_application_path }}
+  changed_when: false
+  tags: iterm2, plist
+
+- name: Pause to run iTerm2
+  ansible.builtin.pause:
+    prompt: Press Ctrl+C to quit now if iTerm2 is running
+    seconds: 30
+  tags: iterm2, plist
+
+- name: Kill iTerm2
+  ansible.builtin.shell: |
+    killall iTerm2
+  changed_when: false
+  tags: iterm2, plist
+
+- name: Copy fonts
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "/Users/{{ username }}/Library/Fonts/{{ item }}"
+    mode: "0700"
+  with_items: "{{ iterm2_fonts_to_install }}"
+  tags: iterm2, fonts
+
+- name: Get iterm2 current font
+  ansible.builtin.shell: |
+    /usr/libexec/PlistBuddy -c 'Print :"New Bookmarks":0:"Normal Font"' {{ iterm2_plist_path }}
+  register: iterm2_current_font
+  changed_when: false
+  tags: iterm2, fonts
+
+- name: Set iterm2 font
+  ansible.builtin.shell: |
+    /usr/libexec/PlistBuddy -c 'Set :"New Bookmarks":0:"Normal Font" "{{ iterm2_font_name }} {{ iterm2_font_size }}"' {{ iterm2_plist_path }}
+  when: iterm2_current_font.stdout != iterm2_font_name + " " + iterm2_font_size | string
+  changed_when: true
+  tags: iterm2, fonts
+
+- name: Configure defaults
+  community.general.osx_defaults:
+    domain: com.googlecode.iterm2
+    key: "{{ item.key }}"
+    type: "{{ item.type }}"
+    value: "{{ item.value }}"
+    state: present
+  with_items: "{{ iterm2.defaults }}"
+  tags: iterm2, defaults
+
+- name: Check iterm2 theme
+  ansible.builtin.shell: |
+     defaults read com.googlecode.iterm2 | grep "{{ iterm2_color_schemes.selected_theme }}"
+  register: iterm2_theme
+  changed_when: false
+  ignore_errors: true
+  tags: iterm2, schemes
+
+- name: Set Color Schemes
+  tags: iterm2, schemes
+  when: iterm2_theme.rc != 0
+  block:
+    - name: Create iterm2 directory
+      ansible.builtin.file:
+        path: "/Users/{{ username }}/iterm2"
+        state: directory
+        mode: "0700"
+      tags: iterm2, schemes
+
+    - name: Clone iTerm Color Schemes repository
+      ansible.builtin.git:
+        repo: "{{ iterm2_color_schemes.git_repository }}"
+        dest: "/Users/{{ username }}/iterm2/iterm2-color-schemes"
+        version: "{{ iterm2_color_schemes.branch }}"
+      tags: iterm2, schemes
+
+    - name: Import scheme
+      ansible.builtin.shell: |
+        cd /Users/{{ username }}/iterm2/iterm2-color-schemes
+        tools/import-scheme.sh 'schemes/{{ iterm2_color_schemes.selected_theme }}.itermcolors'
+      changed_when: true
+      tags: iterm2, schemes

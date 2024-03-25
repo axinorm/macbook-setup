@@ -1,5 +1,0 @@
----
-- name: killall dock
-  command: killall Dock
-  become: yes
-  ignore_errors: yes

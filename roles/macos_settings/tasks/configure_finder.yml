@@ -1,0 +1,30 @@
+---
+- name: Finder - Configure defaults
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: "{{ item.key }}"
+    type: "{{ item.type }}"
+    value: "{{ item.value }}"
+    state: present
+  with_items: "{{ finder.defaults }}"
+  notify: Kill Finder
+  tags: finder, defaults
+
+- name: Finder - Show folders
+  ansible.builtin.command: chflags nohidden {{ item }}
+  with_items: "{{ finder.show_folders }}"
+  become: true
+  changed_when: false
+  notify: Kill Finder
+  tags: finder, defaults, folders
+
+- name: Finder - Remove tags
+  ansible.builtin.shell: |
+    /usr/libexec/PlistBuddy -c "Delete :FavoriteTagNames" ~/Library/Preferences/com.apple.finder.plist
+    /usr/libexec/PlistBuddy -c "Add :FavoriteTagNames array" ~/Library/Preferences/com.apple.finder.plist
+    /usr/libexec/PlistBuddy -c "Add :FavoriteTagNames:0 string" ~/Library/Preferences/com.apple.finder.plist
+  when: finder.remove_tags
+  become: true
+  changed_when: false
+  notify: Kill Finder
+  tags: finder, defaults, tags
