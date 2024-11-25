@@ -34,23 +34,18 @@
   block:
     - name: Copy .zshrc
       ansible.builtin.template:
-        src: "zsh/{{ item }}.j2"
-        dest: "/Users/{{ username }}/{{ item }}"
+        src: "zsh/.zshrc.j2"
+        dest: "/Users/{{ username }}/.zshrc"
         mode: "0644"
-      loop:
-        - .zshrc
 
-    - name: Copy .p10k.zsh and .fzf.zsh
+    - name: Copy .p10k.zsh
       ansible.builtin.copy:
-        src: "zsh/{{ item }}"
-        dest: "/Users/{{ username }}/{{ item }}"
+        src: "zsh/.p10k.zsh"
+        dest: "/Users/{{ username }}/.p10k.zsh"
         mode: "0644"
-      loop:
-        - .p10k.zsh
-        - .fzf.zsh
 
 - name: Set default shell
   ansible.builtin.user:
     name: "{{ username }}"
     shell: /bin/zsh
-  become: true
+  tags: zsh

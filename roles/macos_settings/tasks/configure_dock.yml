@@ -22,12 +22,12 @@
       changed_when: false
 
     - name: Dock - Remove all items from the Dock
-      ansible.builtin.command: /usr/local/bin/dockutil --remove all
+      ansible.builtin.shell: $(brew --prefix)/bin/dockutil --remove all
       changed_when: true
       notify: Kill Dock
 
     - name: Dock - Set the Dock items
-      ansible.builtin.command: "/usr/local/bin/dockutil --add {{ item }} --no-restart"
+      ansible.builtin.shell: "$(brew --prefix)/bin/dockutil --add {{ item }} --no-restart"
       changed_when: true
       with_items: "{{ dock.display_applications }}"
       notify: Kill Dock

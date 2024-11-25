@@ -1,0 +1,25 @@
+---
+- name: Ensure ~/.ssh exists
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.ssh"
+    state: directory
+    mode: "0700"
+  tags: ssh
+
+- name: Ensure ~/.ssh/known_hosts exists
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.ssh/known_hosts"
+    state: touch
+    mode: "0644"
+  changed_when: false
+  tags: ssh
+
+- name: Copy SSH files
+  ansible.builtin.copy:
+    src: "ssh/{{ username }}/{{ item.file }}"
+    dest: "{{ ansible_env.HOME }}/.ssh/{{ item.file }}"
+    owner: "{{ username }}"
+    group: "{{ group }}"
+    mode: "{{ item.mode }}"
+  with_items: "{{ ssh.files }}"
+  tags: ssh

@@ -111,20 +111,20 @@ export LANG=fr_FR.UTF-8
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # Path for GNU tools
-PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
-PATH="/usr/local/opt/gawk/libexec/gnubin:$PATH"
-PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-PATH="/usr/local/opt/gnu-tar/libexec/gnubin:$PATH"
+PATH="$(brew --prefix)/opt/grep/libexec/gnubin:$PATH"
+PATH="$(brew --prefix)/opt/gawk/libexec/gnubin:$PATH"
+PATH="$(brew --prefix)/opt/coreutils/libexec/gnubin:$PATH"
+PATH="$(brew --prefix)/opt/gnu-tar/libexec/gnubin:$PATH"
 
 # Path for Ansible Lint
-PATH="/usr/local/opt/ansible-lint/bin:$PATH"
+PATH="$(brew --prefix)/opt/ansible-lint/bin:$PATH"
 
 # ZSH modules
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # fzf
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source <(fzf --zsh)
 
 # direnv
 eval "$(direnv hook zsh)"

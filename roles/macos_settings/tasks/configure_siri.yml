@@ -1,0 +1,9 @@
+- name: Siri - Configure defaults
+  community.general.osx_defaults:
+    domain: "{{ item.domain }}"
+    key: "{{ item.key }}"
+    type: "{{ item.type }}"
+    value: "{{ item.value }}"
+    state: present
+  with_items: "{{ siri.defaults }}"
+  tags: siri, defaults

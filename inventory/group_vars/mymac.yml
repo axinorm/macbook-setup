@@ -6,13 +6,6 @@ group: staff
 hostname: mymac
 
 ##
-# Git
-##
-git:
-  username: axinorm
-  email: my-email@example.com
-
-##
 # Homebrew
 ##
 homebrew:
@@ -52,20 +45,25 @@ homebrew:
     - vscodium
 
 ##
-# Tmux
+# AppStore
 ##
-tmux:
-  plugins:
-    - { name: "tpm", repo: "https://github.com/tmux-plugins/tpm.git", version: "v3.1.0" }
+appstore:
+  applications: []
 
 ##
-# VSCodium
+# Rosetta
 ##
-vscodium:
-  extensions:
-    - { name: "Terraform", id: "hashicorp.terraform" }
-    - { name: "HCL", id: "hashicorp.hcl" }
-    - { name: "Ansible", id: "redhat.ansible" }
+rosetta:
+  enabled: true
+
+##
+# Git
+##
+git:
+  enabled: true
+  username: axinorm
+  email: my-email@example.com
+  files: []
 
 ##
 # ZSH
@@ -79,10 +77,27 @@ powerlevel10k:
     version: v1.20.0
 
 ##
-# AppStore
+# Tmux
 ##
-appstore:
-  applications: []
+tmux:
+  plugins:
+    - { name: "tpm", repo: "https://github.com/tmux-plugins/tpm.git", version: "v3.1.0" }
+
+##
+# SSH
+##
+ssh:
+  enabled: true
+  files: []
+
+##
+# VSCodium
+##
+vscodium:
+  extensions:
+    - { name: "Terraform", id: "hashicorp.terraform" }
+    - { name: "HCL", id: "hashicorp.hcl" }
+    - { name: "Ansible", id: "redhat.ansible" }
 
 ##
 # Global settings
@@ -296,6 +311,21 @@ network_configuration:
       - 2620:fe::9
 
 ##
+# Siri
+##
+siri:
+  defaults:
+    - { name: Disable Siri 1/2, domain: com.apple.assistant.support, key: "Assistant Enabled", type: int, value: 0 }
+    - { name: Disable Siri 2/2, domain: com.apple.Siri, key: SiriPrefStashedStatusMenuVisible, type: bool, value: false }
+    - { name: Disable voice feedback, domain: com.apple.assistant.backedup, key: "Use device speaker for TTS", type: int, value: 3 }
+    - { name: Opt out of voice data sharing, domain: com.apple.assistant.support, key: "Siri Data Sharing Opt-In Status", type: int, value: 2 }
+    - { name: No Siri on lockscreen, domain: com.apple.Siri, key: LockscreenEnabled, type: int, value: 0 }
+    - { name: Disable Type to Siri, domain: com.apple.Siri, key: TypeToSiriEnabled, type: int, value: 0 }
+    - { name: Disable Siri visible in Menu Bar, domain: com.apple.Siri, key: StatusMenuVisible, type: int, value: 0 }
+    - { name: Don't listen for "Hey Siri", domain: com.apple.voicetrigger, key: "VoiceTrigger Enabled", type: int, value: 0 }
+    - { name: Don't listen for "Hey Siri" on headphones, domain: com.apple.voicetrigger, key: VoiceTriggerUserEnabled, type: int, value: 0 }
+
+##
 # Others
 ##
 others:
@@ -312,9 +342,6 @@ others:
     - { name: Show Sound, domain: com.apple.controlcenter, key: Sound, type: int, value: 18 }
     - { name: Show WiFi, domain: com.apple.controlcenter, key: WiFi, type: int, value: 18 }
     - { name: Don't show Now Playing, domain: com.apple.controlcenter, key: NowPlaying, type: int, value: 24 }
-    # Siri
-    - { name: Disable Siri, domain: com.apple.Siri, key: SiriPrefStashedStatusMenuVisible, type: bool, value: false }
-    - { name: Disable voice detection for Siri, domain: com.apple.Siri, key: VoiceTriggerUserEnabled, type: bool, value: false }
     # Battery
     - { name: Show battery percentage, domain: com.apple.menuextra.battery, key: ShowPercent, type: bool, value: true }
     # Screensaver
