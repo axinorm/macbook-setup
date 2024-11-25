@@ -1,0 +1,31 @@
+---
+- name: Copy configuration files
+  ansible.builtin.copy:
+    src: "git/{{ username }}/{{ item.file }}"
+    dest: "{{ ansible_env.HOME }}/{{ item.file }}"
+    owner: "{{ username }}"
+    group: "{{ group }}"
+    mode: "{{ item.mode }}"
+  with_items: "{{ git.files }}"
+  tags: git
+
+- name: Set name
+  community.general.git_config:
+    name: user.name
+    scope: global
+    value: "{{ git.username }}"
+  tags: git
+
+- name: Set email address
+  community.general.git_config:
+    name: user.email
+    scope: global
+    value: "{{ git.email }}"
+  tags: git
+
+- name: Set credentials storage
+  community.general.git_config:
+    name: credential.helper
+    scope: global
+    value: store
+  tags: git

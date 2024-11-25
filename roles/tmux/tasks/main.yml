@@ -30,14 +30,6 @@
   with_items: "{{ tmux.plugins }}"
   tags: tmux
 
-- name: Create a symbolic link for airport command
-  ansible.builtin.file:
-    src: /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport
-    dest: /usr/local/bin/airport
-    state: link
-  become: true
-  tags: tmux
-
 - name: Add binary scripts for bottom bar
   ansible.builtin.copy:
     src: tmux/bin/

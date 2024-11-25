@@ -3,13 +3,16 @@
   hosts: mymac
   connection: local
   roles:
-    - preflight
-    - hostname
-    - homebrew
-    - appstore
-    - zsh
-    - tmux
-    - vim
-    - iterm2
-    - vscodium
-    - macos_settings
+    - { role: preflight }
+    - { role: hostname }
+    - { role: homebrew }
+    - { role: appstore }
+    - { role: rosetta, when: ansible_machine == "arm64" and rosetta.enabled }
+    - { role: git, when: git.enabled }
+    - { role: zsh }
+    - { role: tmux }
+    - { role: ssh, when: ssh.enabled }
+    - { role: vim }
+    - { role: iterm2 }
+    - { role: vscodium }
+    - { role: macos_settings }
